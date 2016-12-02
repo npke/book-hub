@@ -3,23 +3,26 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-    email: {
+    address: {
         type: String,
         trim: true,
-        required: true
-    },
-
-    password: {
-        type: String,
         default: ''
     },
 
-    roles: {
-        type: [{
-            type: String,
-            enum: ['user', 'moderator', 'admin']
-        }],
-        default: ['user']
+    birthday: {
+        type: Date
+    },
+
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+
+    email: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        required: true
     },
 
     firstName: {
@@ -28,24 +31,42 @@ var UserSchema = new Schema({
         default: ''
     },
 
+    joinedTrips: [{
+        type: Schema.ObjectId,
+        ref: 'Trip'
+    }],
+
+    lastVisited: {
+        type: Date
+    },
+
+    location: {
+        type: String,
+        default: config.user.defaultLocation,
+    },
+
     lastName: {
         type: String,
         trim: true,
         default: ''
     },
 
-    address: {
+    password: {
         type: String,
-        trim: true,
         default: ''
     },
+
+    pinnedTrips: [{
+        type: Schema.ObjectId,
+        ref: 'Trip'
+    }],
 
     phoneNumber: {
         type: String,
         trim: true
     },
 
-    avatarURL: {
+    profilePhotoURL: {
         type: String,
         default: config.user.defaultAvatarURL
     },
@@ -56,13 +77,22 @@ var UserSchema = new Schema({
         default: config.user.provider.EMAIL
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now()
+    score: {
+        type: Number,
+        default: 100
     },
 
-    lastVisited: {
-        type: Date
+    rank: {
+        type: String,
+        default: 'Newbie'
+    },
+
+    roles: {
+        type: [{
+            type: String,
+            enum: ['user', 'moderator', 'admin']
+        }],
+        default: ['user']
     }
 });
 
